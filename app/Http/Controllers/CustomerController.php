@@ -20,7 +20,30 @@ class CustomerController extends Controller
         $customers->address = $request->input('address');
         $customers->email = $request->input('email');
         $customers->phone = $request->input('phone');
-        
+
+        $customers->save();
+        return response()->json($customers);
+    }
+
+    public function show()
+    {
+        $customers = Customer::all();
+        return response()->json($customers);
+    }
+    public function edit($id)
+    {
+
+        $customers = Customer::find($id);
+        return response()->json($customers);
+    }
+    public function update(Request $request, $id)
+    {
+
+        $customers = Customer::find($id);
+        $customers->name = $request->input('name');
+        $customers->address = $request->input('address');
+        $customers->email = $request->input('email');
+        $customers->phone = $request->input('phone');
         $customers->save();
         return response()->json($customers);
     }

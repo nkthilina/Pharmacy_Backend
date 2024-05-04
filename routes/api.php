@@ -10,7 +10,12 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 
 // Define your API routes here
 
-// Route::get('/customer', [CustomerController::class, 'index']);
-// Route::post('/customer', [CustomerController::class, 'create']);
-Route::post('/customer', 'CustomerController@create');
+Route::get('/customers', [CustomerController::class, 'show']);
+Route::post('customer', [CustomerController::class, 'create']);
+Route::get('/customer/{id}', [CustomerController::class, 'edit']);
+Route::put('/customer/{id}', [CustomerController::class, 'update']);
 
+
+Route::get('testing', function () {
+    return 'This is a test';
+});
