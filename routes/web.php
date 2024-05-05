@@ -1,13 +1,12 @@
 <?php
 
-use App\Http\Controllers\CustomerController;
+
+// use App\Http\Controllers\AuthController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
     return view('welcome');
 });
-
-// Route::post('/customer', 'CustomerController@create');
 
 
 // Route::get('/register', [AuthController::class, 'register_index'])->name('register');
