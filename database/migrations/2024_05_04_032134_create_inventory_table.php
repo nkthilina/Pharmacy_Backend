@@ -15,15 +15,12 @@ return new class extends Migration
             $table->id();
             $table->string('item_name');
             $table->integer('quantity');
-            $table->integer('stock');
-            $table->string('unit');
+            $table->integer('stock')->nullable();
+            $table->string('unit')->nullable();
             $table->integer('price');
-            $table->string('description');
-            $table->date('expiry_date');
-            $table->date('purchase_date');
-            // $table->foreign('added_by')->references('id')->on('users')->nullOnDelete();
-            // $table->foreign('updated_by')->references('id')->on('users')->nullOnDelete();
-            // $table->foreign('deleted_by')->references('id')->on('users')->nullOnDelete();
+            $table->string('description')->nullable();
+            $table->date('expiry_date')->nullable();
+            $table->date('purchase_date')->nullable();
             $table->timestamps();
         });
     }

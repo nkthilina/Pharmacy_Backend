@@ -6,6 +6,7 @@ use App\Http\Controllers\API\BaseController as BaseController;
 use App\Http\Resources\CustomerResource;
 use App\Models\Customer;
 use Illuminate\Http\Request;
+use Illuminate\Http\JsonResponse;
 
 class CustomerController extends BaseController
 {
@@ -14,10 +15,47 @@ class CustomerController extends BaseController
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(): JsonResponse
+    public function index()
     {
         $customers = Customer::all();
+        return response()->json($customers);
+    }
 
-        return $this->sendResponse(CustomerResource::collection($customers), 'Customers retrieved successfully.');
+    public function create(Request $request)
+    {
+        $request->validate([
+            'name' => 'required',
+            'address' => 'required',
+            'email' => 'required',
+            'phone' => 'required',
+        ]);
+        $customer = new Customer();
+        $customer->name = $request->name;
+        $customer->address = $request->address;
+        $customer->email = $request->email;
+        $customer->phone = $request->phone;
+        $customer->save();
+        return response()->json($customer);
+    }
+    public function show($id)
+    {
+        $customer = Customer::find($id);
+        return response()->json($customer);
+    }
+    public function update(Request $request, $id)
+    {
+        $customer = Customer::find($id);
+        $customer->name = $request->name;
+        $customer->address = $request->address;
+        $customer->email = $request->email;
+        $customer->phone = $request->phone;
+        $customer->save();
+        return response()->json($customer);
+    }
+    public function delete($id)
+    {
+        $customer = Customer::find($id);
+        $customer->delete();
+        return response()->json($customer);
     }
 }
