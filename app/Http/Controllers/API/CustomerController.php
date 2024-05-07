@@ -37,11 +37,13 @@ class CustomerController extends BaseController
         $customer->save();
         return response()->json($customer);
     }
+
     public function show($id)
     {
         $customer = Customer::find($id);
         return response()->json($customer);
     }
+
     public function update(Request $request, $id)
     {
         $customer = Customer::find($id);
@@ -52,10 +54,12 @@ class CustomerController extends BaseController
         $customer->save();
         return response()->json($customer);
     }
+
     public function delete($id)
     {
         $customer = Customer::find($id);
         $customer->delete();
         return response()->json($customer);
     }
+    
 }

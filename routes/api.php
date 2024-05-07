@@ -3,22 +3,18 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
-use App\Http\Controllers\API\RegisterController;
 use App\Http\Controllers\API\CustomerController;
+use App\Http\Controllers\API\UserController;
 use App\Http\Controllers\InventoryController;
 
 // Route::get('/user', function (Request $request) {
 //     return $request->user();
 // })->middleware('auth:sanctum');
 
-// Define your API routes here
+Route::post('/auth/login', [UserController::class, 'loginUser']);
+Route::post('/auth/register', [UserController::class, 'createUser']);
 
-Route::controller(RegisterController::class)->group(function () {
-    Route::post('register', 'register');
-    Route::post('login', 'login');
-});
-
-Route::middleware('auth:sanctum', ['role'=> 'cashier'])->group(function () {
+Route::middleware('auth:sanctum')->group(function () {
     // Route::resource('customers', CustomerController::class);
     Route::post('/customer',[CustomerController::class, 'create']);
     Route::get('/customers', [CustomerController::class, 'index']);
