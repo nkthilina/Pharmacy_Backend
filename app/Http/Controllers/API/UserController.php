@@ -10,7 +10,7 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 class UserController extends Controller
 {
-    public function createUser(Request $request)
+    public function register(Request $request)
     {
         /**
          * Create User
@@ -55,7 +55,7 @@ class UserController extends Controller
      * @param Request $request
      * @return User
      */
-    public function loginUser(Request $request)
+    public function login(Request $request)
     {
         try {
             $validator = Validator::make($request->all(), [
@@ -92,4 +92,13 @@ class UserController extends Controller
             ], 500);
         }
     }
+
+    public function logout(Request $request)
+        {
+            Auth::logout();
+            return response()->json([
+                'status' => true,
+                'message' => 'User logged out successfully'
+            ], 200);
+        }
 }
