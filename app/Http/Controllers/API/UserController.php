@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
+
 class UserController extends Controller
 {
     public function register(Request $request)
@@ -19,8 +20,8 @@ class UserController extends Controller
          */
         try {
             $validator = Validator::make($request->all(), [
-                'name' => 'required',
-                'email' => 'required|email|unique:users,email',
+                'name' => 'required|max:255',
+                'email' => 'required|email|max:255|unique:users,email',
                 'password' => 'required',
                 'c_password' => 'required|same:password',
             ]);
@@ -37,6 +38,7 @@ class UserController extends Controller
                 'email' => $request->email,
                 'password' => Hash::make($request->password),
             ]);
+
             return response()->json([
                 'status' => true,
                 'message' => 'User created successfully',
@@ -70,10 +72,10 @@ class UserController extends Controller
                 ], 401);
             }
 
-            if (!Auth::attempt($request->only(['email', 'password']))){
+            if (!Auth::attempt($request->only(['email', 'password']))) {
                 return response()->json([
-                    'status' => false,
-                    'message' => 'Unauthorized'
+                    'status' => 'Error has occurred...',
+                    'message' => 'Credentials do not match.',
                 ], 401);
             }
 
@@ -94,11 +96,21 @@ class UserController extends Controller
     }
 
     public function logout(Request $request)
-        {
-            Auth::logout();
-            return response()->json([
-                'status' => true,
-                'message' => 'User logged out successfully'
-            ], 200);
-        }
+    {
+        return "Logout";
+        // try {
+        //     // $request->user()->currentAccessToken()->delete();
+        //     Auth::logout();
+        //     return response()->json([
+        //         'status' => true,
+        //         'message' => 'User logged out successfully'
+        //     ], 200);
+
+        // } catch (\Throwable $th) {
+        //     return response()->json([
+        //         'status' => false,
+        //         'message' => $th->getMessage()
+        //     ], 500);
+        // }
+    }
 }
