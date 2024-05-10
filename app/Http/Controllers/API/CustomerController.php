@@ -10,11 +10,16 @@ use Illuminate\Http\JsonResponse;
 
 class CustomerController extends BaseController
 {
-     /**
-     * Display a listing of the resource.
+    /**
+     * Create a new controller instance.
      *
-     * @return \Illuminate\Http\Response
+     * @return void
      */
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+
     public function index()
     {
         $customers = Customer::all();
@@ -61,5 +66,5 @@ class CustomerController extends BaseController
         $customer->delete();
         return response()->json($customer);
     }
-    
+
 }

@@ -1,18 +1,24 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
-use App\Models\Inventory;
 use Illuminate\Http\Request;
+use App\Models\Inventory;
+
 
 class InventoryController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     * Create a new controller instance.
      *
-     * @return \Illuminate\Http\Response
+     * @return void
      */
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+
     public function index()
     {
         $inventory = Inventory::all();
@@ -71,11 +77,4 @@ class InventoryController extends Controller
         $inventory->delete();
         return response()->json($inventory);
     }
-
-
-
-
-
-
-
 }

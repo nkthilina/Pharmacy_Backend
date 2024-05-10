@@ -11,29 +11,19 @@ use Illuminate\Support\Facades\Validator;
 
 class UserController extends Controller
 {
+
     /**
-     * Create a new controller instance.
-     *
-     * @return void
+     * Create User
+     * @param Request $request
+     * @return User
      */
-    public function __construct()
-    {
-        $this->middleware('auth');
-    }
-
-
     public function register(Request $request)
     {
-        /**
-         * Create User
-         * @param Request $request
-         * @return User
-         */
         try {
             $validator = Validator::make($request->all(), [
                 'name' => 'required|max:255',
                 'email' => 'required|email|max:255|unique:users,email',
-                'password' => 'required',
+                'password' => 'required|min:8',
                 'c_password' => 'required|same:password',
             ]);
             if ($validator->fails()) {
@@ -97,7 +87,6 @@ class UserController extends Controller
                 'message' => 'User logged in successfully',
                 'token' => $user->createToken("API TOKEN")->plainTextToken
             ], 200);
-
         } catch (\Throwable $th) {
             return response()->json([
                 'status' => false,
@@ -108,20 +97,17 @@ class UserController extends Controller
 
     public function logout(Request $request)
     {
-        return "Logout";
-        // try {
-        //     // $request->user()->currentAccessToken()->delete();
-        //     Auth::logout();
-        //     return response()->json([
-        //         'status' => true,
-        //         'message' => 'User logged out successfully'
-        //     ], 200);
-
-        // } catch (\Throwable $th) {
-        //     return response()->json([
-        //         'status' => false,
-        //         'message' => $th->getMessage()
-        //     ], 500);
-        // }
+        try {
+            $request->user()->currentAccessToken()->delete();
+            return response()->json([
+                'status' => true,
+                'message' => 'User logged out successfully'
+            ], 200);
+        } catch (\Throwable $th) {
+            return response()->json([
+                'status' => false,
+                'message' => $th->getMessage()
+            ], 500);
+        }
     }
 }
