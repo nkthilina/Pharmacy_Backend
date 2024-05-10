@@ -8,6 +8,11 @@ use Illuminate\Http\Request;
 
 class InventoryController extends Controller
 {
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
     public function index()
     {
         $inventory = Inventory::all();
